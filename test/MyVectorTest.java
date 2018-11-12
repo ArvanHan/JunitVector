@@ -1,8 +1,29 @@
 import org.junit.jupiter.api.Test;
 
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class MyVectorTest {
+    @Test //test get value
+    public void getValue(){
+        double [] doubleVector= new double[] {0.0,1.0,2.0,3.0 };
+        MyVector vector = new MyVector(doubleVector);
+        assertEquals(2.0,(double)vector.getValue(3));
+        assertEquals(3.0,(double)vector.getValue(4));
+        int [] intArray = new int[]{1,3,5,7};
+        MyVector intVector = new MyVector(intArray);
+        assertEquals(5,(int)vector.getValue(3));
+        assertEquals(7,(int)vector.getValue(4));
+
+    }
+
+    @Test //test equal
+    public void testEqual(){
+        MyVector vector = new MyVector();
+        System.out.println("");
+        assertEquals("",vector);
+    }
+
     @Test //test append double[]
     public void testAppendDdouble(){
         MyVector vector = new MyVector();
@@ -24,12 +45,6 @@ class MyVectorTest {
         assertEquals("",vector);
     }
 
-    @Test //test equal
-    public void testEqual(){
-        MyVector vector = new MyVector();
-        System.out.println("");
-        assertEquals("",vector);
-    }
 
     @Test //test getlength
     public void testGetLength(){
@@ -45,16 +60,18 @@ class MyVectorTest {
         double [] original = new double[] {0.0,1.0,2.0,3.0 };
         MyVector vector = new MyVector(original);
         System.out.println("");
-        assertEquals("",vector);
+        assertEquals( "",vector);
     }
 
     @Test //test add double
     public void testAddDouble(){
         double two = 2.0;
         double [] original = new double[] {0.0,1.0,2.0,3.0 };
+        double [] expect = new double[]{2,3,4,5};
         MyVector vector = new MyVector(original);
         MyVector result = vector.add(two);
-        assertEquals("",result);
+        MyVector expectV = new MyVector(expect);
+        assertEquals(expectV,result);
     }
 
     @Test //test sub vector
