@@ -53,10 +53,9 @@ public final class MyVector {
         return 0;
     }
 
-    public Double getValue(int i) { //returns the value this[i]
+    public <T>T getValue(int i) { //returns the value this[i]
         return null;
     }
-
     public MyVector add(MyVector V) {//add this to V, returning a Vector the same size as this
         return null;
     }
