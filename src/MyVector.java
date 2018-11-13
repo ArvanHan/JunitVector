@@ -1,28 +1,33 @@
-public final class MyVector {
+public final class MyVector{
 
-    protected final Object[] data; //Vector itself
+    protected final double[] doubleData;
+    protected final int[] intData;
+    //protected final Object[] data; //Vector itself
     protected final int size; // maximum capacity of the vector
-
+    
     public MyVector() {
         this(0, 0);
     }
 
     public MyVector(int size, double D) {
         this.size = size;
-        this.data = new Object[size]; //creates a vector of size – size
-        for (int i = 0; i < size; i++) data[i] = D;// with elements initialized to D
+        this.doubleData = new double[size]; //creates a vector of size – size
+        for (int i = 0; i < size; i++) doubleData[i] = D;// with elements initialized to D
+        this.intData = new int[0];
     }
 
     public MyVector(double[] D) {//creates a vector initialized to array D
         this.size = D.length;
-        data = new Object[size];
-        for (int i = 0; i < size; i++) data[i] = D[i];
+        this.intData= new int[0];
+        this.doubleData = new double[size];
+        for (int i = 0; i < size; i++) doubleData[i] = D[i];
     }
 
     public MyVector(int[] I) {//creates a vector initialized to array I
         this.size = I.length;
-        data = new Object[size];
-        for (int i = 0; i < size; i++) data[i] = I[i];
+        doubleData = new double[0];
+        this.intData = new int[size];
+        for (int i = 0; i < size; i++) intData[i] = I[i];
     }
 
     public MyVector append(double[] doubleArray) {
@@ -53,9 +58,10 @@ public final class MyVector {
         return 0;
     }
 
-    public <T>T getValue(int i) { //returns the value this[i]
-        return null;
+    public E getValue(int i) { //returns the value this[i]
+        return 0;
     }
+
     public MyVector add(MyVector V) {//add this to V, returning a Vector the same size as this
         return null;
     }
