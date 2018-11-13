@@ -25,7 +25,7 @@ public final class MyVector {
         for (int i = 0; i < size; i++) data[i] = I[i];
     }
 
-    public MyVector append() {
+    public MyVector append(double[] doubleArray) {
         return null;
     }
 
@@ -45,8 +45,8 @@ public final class MyVector {
         return null;
     }
 
-    public Boolean equal(MyVector V) {//this and V are the same
-        return null;
+    public boolean equal(MyVector V) {//this and V are the same
+        return true;
     }
 
     public int getLength() { //returns number of elements in this
@@ -72,19 +72,19 @@ public final class MyVector {
         return null;
     }
 
-    public MyVector Mult(MyVector V) { //Multiple every element of this by corresponding element in V
+    public MyVector mult(MyVector V) { //Multiple every element of this by corresponding element in V
         return null;
     }
 
-    public MyVector Mult(double aDouble) {//Multiply every element of this by aDouble
+    public MyVector mult(double aDouble) {//Multiply every element of this by aDouble
         return null;
     }
 
-    public MyVector Normalize() {//returns this as a normalized vector
+    public MyVector normalize() {//returns this as a normalized vector
         return null;
     }
 
-    public Double EuclidianDistance(MyVector V) {//returns the Euclidian distance between this and V.
+    public Double euclidianDistance(MyVector V) {//returns the Euclidian distance between this and V.
         return null;
     }
 }
