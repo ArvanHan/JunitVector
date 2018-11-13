@@ -1,10 +1,19 @@
+class returnType {
+    public final int intValue;
+    public final double doubleValue;
+
+    public returnType(int iValue,double dValue ){
+        this.intValue = iValue;
+        this.doubleValue = dValue;
+    }
+}
 public final class MyVector{
 
     protected final double[] doubleData;
     protected final int[] intData;
     //protected final Object[] data; //Vector itself
     protected final int size; // maximum capacity of the vector
-    
+
     public MyVector() {
         this(0, 0);
     }
@@ -58,8 +67,8 @@ public final class MyVector{
         return 0;
     }
 
-    public E getValue(int i) { //returns the value this[i]
-        return 0;
+    public returnType getValue(int i) { //returns the value this[i]
+        return null;
     }
 
     public MyVector add(MyVector V) {//add this to V, returning a Vector the same size as this

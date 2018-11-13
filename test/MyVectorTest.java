@@ -23,13 +23,13 @@ class MyVectorTest {
     public void getValue() {
         MyVector doubleVector = new MyVector(ORIGDARRAY);
         MyVector emptyVector = new MyVector();
-        assertEquals(2.0, (double) doubleVector.getValue(3), "test getValue from double vector");
-        assertEquals(3.0, (double) doubleVector.getValue(4));
-        assertEquals(null, (double) doubleVector.getValue(5), "test getValue from an index out of bound");
-        assertEquals(null, (double) doubleVector.getValue(3), "test getValue from empty vector");
+        assertEquals(2.0, doubleVector.getValue(3).doubleValue, "test getValue from double vector");
+        assertEquals(3.0, doubleVector.getValue(4).doubleValue);
+        assertEquals(null, doubleVector.getValue(5).doubleValue, "test getValue from an index out of bound");
+        assertEquals(null, doubleVector.getValue(3).doubleValue, "test getValue from empty vector");
         MyVector intVector = new MyVector(ORIGIARRAY);
-        assertEquals(5, (int) intVector.getValue(3), "test getValue from int vector");
-        assertEquals(7, (int) intVector.getValue(4));
+        assertEquals(5, intVector.getValue(3).intValue, "test getValue from int vector");
+        assertEquals(7, intVector.getValue(4).intValue);
     }
 
     @Test //test equal
