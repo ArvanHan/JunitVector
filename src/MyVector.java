@@ -2,12 +2,13 @@ class returnType {
     public final int intValue;
     public final double doubleValue;
 
-    public returnType(int iValue,double dValue ){
+    public returnType(int iValue, double dValue) {
         this.intValue = iValue;
         this.doubleValue = dValue;
     }
 }
-public final class MyVector{
+
+public final class MyVector {
 
     protected final double[] doubleData;
     protected final int[] intData;
@@ -27,7 +28,7 @@ public final class MyVector{
 
     public MyVector(double[] D) {//creates a vector initialized to array D
         this.size = D.length;
-        this.intData= new int[0];
+        this.intData = new int[0];
         this.doubleData = new double[size];
         for (int i = 0; i < size; i++) doubleData[i] = D[i];
     }
@@ -68,7 +69,8 @@ public final class MyVector{
     }
 
     public returnType getValue(int i) { //returns the value this[i]
-        return null;
+        returnType rt = new returnType(-999, -999);
+        return rt;
     }
 
     public MyVector add(MyVector V) {//add this to V, returning a Vector the same size as this

@@ -11,8 +11,8 @@ import static org.junit.jupiter.api.Assertions.*;
 class MyVectorTest {
     //constant vectors for testing purpose
     private final double[] ORIGDOUBLEARRAY = new double[]{-1.1, 0.0, 1.0, 2.3, 3.0};
-    private final MyVector DOUBLEV = new MyVector(ORIGDOUBLEARRAY);
     private final int[] ORIGINTARRAY = new int[]{3, 2, 1, 0, -1};
+    private final MyVector DOUBLEV = new MyVector(ORIGDOUBLEARRAY);
     private final MyVector INTV = new MyVector(ORIGINTARRAY);
     private final MyVector EMPTYVECTOR = new MyVector();
 //inorder to let the test runnable need to implement the get value  and get size function inorder to test field by field
@@ -20,19 +20,19 @@ class MyVectorTest {
 
     @Test //test get value
     public void getValue() {
-        assertEquals(2.0, DOUBLEV.getValue(3).doubleValue, "test getValue from double vector");
+        assertEquals(1.0, DOUBLEV.getValue(3).doubleValue, "test getValue from double vector");
         assertEquals(3.0, DOUBLEV.getValue(4).doubleValue);
-        assertEquals(null, DOUBLEV.getValue(5).doubleValue, "test getValue from an index out of bound");
-        assertEquals(null, DOUBLEV.getValue(3).doubleValue, "test getValue from empty vector");
+        assertEquals(null, DOUBLEV.getValue(6).doubleValue, "test getValue from an index out of bound");
+        assertEquals(null, EMPTYVECTOR.getValue(3).doubleValue, "test getValue from empty vector");
         assertEquals(5, INTV.getValue(3).intValue, "test getValue from int vector");
         assertEquals(7, INTV.getValue(4).intValue);
     }
 
     @Test //test getlength
     public void testGetLength() {
-        assertEquals("5", DOUBLEV.getLength(),"length should be 5");
-        assertEquals("5", DOUBLEV.getLength(),"length should be 5");
-        assertEquals(0,EMPTYVECTOR.getLength(),"empty vector return 0 length");
+        assertEquals("5", DOUBLEV.getLength(), "length should be 5");
+        assertEquals("5", DOUBLEV.getLength(), "length should be 5");
+        assertEquals(0, EMPTYVECTOR.getLength(), "empty vector return 0 length");
     }
 
     @Test //test equal
@@ -44,53 +44,68 @@ class MyVectorTest {
         MyVector diffVD3 = new MyVector(doubleArray);
         assertEquals(true, vD1.equal(vD2));
         assertEquals(false, vD1.equal(diffVD3));
-
         MyVector vI1 = new MyVector(ORIGINTARRAY);
         MyVector vI2 = new MyVector(ORIGINTARRAY);
         assertEquals(true, vI1.equal(vI2));
     }
 
     @Test //test append double[]
-    public void testAppendDdouble() {
-        MyVector vectorD = new MyVector(ORIGDOUBLEARRAY);
+    public void testAppendDouble() {
+        MyVector initDoubleVector = new MyVector(ORIGDOUBLEARRAY);
+        double[] emptyD = new double[0];
         //create a new double array which is a concatenation of two original double array
         double[] concatD = DoubleStream.concat(Arrays.stream(ORIGDOUBLEARRAY), Arrays.stream(ORIGDOUBLEARRAY)).toArray();
         MyVector expectVectorD = new MyVector(concatD);
-        assertEquals(true , vectorD.append(ORIGDOUBLEARRAY).equal(expectVectorD));
+        MyVector actualDoubleVector = initDoubleVector.append(ORIGDOUBLEARRAY);//vector after append double array
+        assertTrue(actualDoubleVector.equal(expectVectorD), "append double array test");
+        assertTrue(initDoubleVector.append(emptyD).equal(initDoubleVector), "double vector append empty vector should remain same");
     }
 
     @Test //test append int[]
     public void testAppendInt() {
-        MyVector vector = new MyVector(ORIGINTARRAY);
-        int[] concatD = IntStream.concat(Arrays.stream(ORIGINTARRAY), Arrays.stream(ORIGINTARRAY)).toArray();
-        MyVector expectVectorD = new MyVector(concatD);
-        //assertEquals("", vector.append());
+        MyVector initIntVector = new MyVector(ORIGINTARRAY);
+        int[] emptyI = new int[0];
+        int[] concatI = IntStream.concat(Arrays.stream(ORIGINTARRAY), Arrays.stream(ORIGINTARRAY)).toArray();
+        MyVector expectIntVector = new MyVector(concatI);
+        MyVector actualIntVector = initIntVector.append(ORIGINTARRAY);//vector after append int array
+        assertTrue(actualIntVector.equal(expectIntVector), "append int array test");
+        assertTrue(initIntVector.append(emptyI).equal(initIntVector), "int vector append empty vector should remain same");
     }
 
     @Test //test Clone
     public void testClone() {
-        MyVector vector = new MyVector();
-        System.out.println("");
-        assertEquals("", vector);
+        MyVector actualEmpty = EMPTYVECTOR.clone();
+        MyVector actualIntClone = INTV.clone();
+        MyVector actualDoubleClone = DOUBLEV.clone();
+        assertTrue(actualDoubleClone.equal(DOUBLEV), "test double clone");
+        assertTrue(actualIntClone.equal(INTV), "test int clone");
+        assertTrue(actualEmpty.equal(EMPTYVECTOR), "test empty vector clone");
     }
-
 
 
     @Test //test add vector
     public void testAdd() {
-        MyVector vector = new MyVector(ORIGDOUBLEARRAY);
+        MyVector actaulDoubleVector = DOUBLEV.add(DOUBLEV);
         System.out.println("");
-        assertEquals("", vector);
+        assertEquals("", actaulDoubleVector);
     }
 
     @Test //test add double
     public void testAddDouble() {
         double two = 2.0;
-        double[] expect = new double[]{0.9, 2, 3, 4.3, 5};
-        MyVector vectorD = new MyVector(ORIGDOUBLEARRAY);
-        MyVector result = vectorD.add(two);
-        MyVector expectV = new MyVector(expect);
-        assertEquals(expectV, result);
+        double onePointTwo = 1.2;
+        MyVector actualDoubleVector = DOUBLEV.add(two);
+        //{-1.1, 0.0, 1.0, 2.3, 3.0} original add 2
+        double[] expectD = new double[]{0.9, 2.0, 3.0, 4.4, 5.0};
+        MyVector expectDResult = new MyVector(expectD);
+        assertTrue(actualDoubleVector.equal(expectDResult), "test double vector add double");
+        MyVector actualIntVector = INTV.add(onePointTwo);
+        //{3, 2, 1, 0, -1} original add 1.2
+        double[] expectI = new double[]{4.2, 3.2, 1.2, 1.2, 0.2};
+        MyVector expectIntResult = new MyVector(expectI);
+        assertTrue(actualIntVector.equal(expectIntResult), "test int vector add double");
+        MyVector expectEmpty = EMPTYVECTOR.add(two);
+        assertTrue(EMPTYVECTOR.equal(expectEmpty), "test empty vector add double");
     }
 
     @Test //test sub vector
