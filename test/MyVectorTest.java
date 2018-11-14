@@ -115,15 +115,25 @@ class MyVectorTest {
         double[] expectD = new double[]{0.9, 2.0, 3.0, 4.3, 5.0};
         MyVector expectDResult = new MyVector(expectD);
         assertTrue(actualDoubleVector.equal(expectDResult), "test double vector add double");
+
         MyVector actualIntVector = INTV.add(onePointTwo);
         //{3, 2, 1, 0, -1} original add 1.2
         double[] expectI = new double[]{4.2, 3.2, 2.2, 1.2, 0.2};
         MyVector expectIntResult = new MyVector(expectI);
         assertTrue(actualIntVector.equal(expectIntResult), "test int vector add double");
+
+        int three = 3 ;
+        MyVector actualIntVectorInt = INTV.add(three);
+        //{3, 2, 1, 0, -1} original add 3
+        double[] expectII = new double[]{6, 5, 4, 3, 2};
+        MyVector expectIntResultInt = new MyVector(expectII);
+        assertTrue(actualIntVectorInt.equal(expectIntResultInt), "test int vector add int");
+
         MyVector expectEmpty = EMPTYVECTOR.add(two);
         assertTrue(EMPTYVECTOR.equal(expectEmpty), "test empty vector add double");
-        //todo add test for int add int
-    }
+
+        }
+
 
     @Test //test sub vector
     public void testSub() {
@@ -143,7 +153,7 @@ class MyVectorTest {
         assertTrue(actualIntDoubleVector.equal(expectIntDoubleVector), "test int sub double vector");
         //test vector add empty vector
         assertTrue(INTV.equal(INTV.sub(EMPTYVECTOR)),"test int vector sub empty vector");
-        //todo empty sub empty
+        assertTrue(EMPTYVECTOR.equal(EMPTYVECTOR.sub(EMPTYVECTOR)),"test empty sub empty vector");
     }
 
     @Test //test add double
