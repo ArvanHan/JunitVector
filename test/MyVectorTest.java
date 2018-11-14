@@ -46,7 +46,7 @@ class MyVectorTest {
         assertEquals(false, vD1.equal(diffVD3));
         MyVector vI1 = new MyVector(ORIGINTARRAY);
         MyVector vI2 = new MyVector(ORIGINTARRAY);
-        int[] intArray = new int[]{1,2,3,4};
+        int[] intArray = new int[]{1, 2, 3, 4};
         MyVector vI3 = new MyVector(intArray);
         assertEquals(true, vI1.equal(vI2));
         assertEquals(false, vI1.equal(vI3));
@@ -88,9 +88,22 @@ class MyVectorTest {
 
     @Test //test add vector
     public void testAdd() {
+        //{-1.1, 0.0, 1.0, 2.3, 3.0} add {-1.1, 0.0, 1.0, 2.3, 3.0}
         MyVector actaulDoubleVector = DOUBLEV.add(DOUBLEV);
-        System.out.println("");
-        assertEquals("", actaulDoubleVector);
+        MyVector expectDoubleVector = new MyVector(new double[]{-2.2, 0.0, 2.0, 4.6, 6.0});
+        assertTrue(actaulDoubleVector.equal(expectDoubleVector), "test double add double vector");
+
+        //{3, 2, 1, 0, -1} add {3, 2, 1, 0, -1}
+        MyVector actualIntVector = INTV.add(INTV);
+        MyVector expectIntVector = new MyVector(new int[]{5, 4, 2, 0, -2});
+        assertTrue(actualIntVector.equal(expectIntVector), "test int add int vector");
+
+        //{3, 2, 1, 0, -1} add {-1.1, 0.0, 1.0, 2.3, 3.0}
+        MyVector actualIntDoubleVector = INTV.add(DOUBLEV);
+        MyVector expectIntDoubleVecotr = new MyVector(new double[]{1.9, 2, 2, 2.3, 2});
+        assertTrue(actualIntDoubleVector.equal(expectIntDoubleVecotr), "test int add double vector");
+        //test vector add empty vector
+        assertTrue(INTV.equal(INTV.add(EMPTYVECTOR)),"test empty add empty");
     }
 
     @Test //test add double
@@ -99,38 +112,69 @@ class MyVectorTest {
         double onePointTwo = 1.2;
         MyVector actualDoubleVector = DOUBLEV.add(two);
         //{-1.1, 0.0, 1.0, 2.3, 3.0} original add 2
-        double[] expectD = new double[]{0.9, 2.0, 3.0, 4.4, 5.0};
+        double[] expectD = new double[]{0.9, 2.0, 3.0, 4.3, 5.0};
         MyVector expectDResult = new MyVector(expectD);
         assertTrue(actualDoubleVector.equal(expectDResult), "test double vector add double");
         MyVector actualIntVector = INTV.add(onePointTwo);
         //{3, 2, 1, 0, -1} original add 1.2
-        double[] expectI = new double[]{4.2, 3.2, 1.2, 1.2, 0.2};
+        double[] expectI = new double[]{4.2, 3.2, 2.2, 1.2, 0.2};
         MyVector expectIntResult = new MyVector(expectI);
         assertTrue(actualIntVector.equal(expectIntResult), "test int vector add double");
         MyVector expectEmpty = EMPTYVECTOR.add(two);
         assertTrue(EMPTYVECTOR.equal(expectEmpty), "test empty vector add double");
+        //todo add test for int add int
     }
 
     @Test //test sub vector
     public void testSub() {
-        MyVector vector = new MyVector();
-        System.out.println("");
-        assertEquals("", vector);
+        //{-1.1, 0.0, 1.0, 2.3, 3.0} Sub {-1.1, 0.0, 1.0, 2.3, 3.0}
+        MyVector actaulDoubleVector = DOUBLEV.sub(DOUBLEV);
+        MyVector expectDoubleVector = new MyVector(new double[]{0.0, 0.0, 0.0, 0.0, 0.0});
+        assertTrue(actaulDoubleVector.equal(expectDoubleVector), "test double sub double vector");
+
+        //{3, 2, 1, 0, -1} add {3, 2, 1, 0, -1}
+        MyVector actualIntVector = INTV.sub(INTV);
+        MyVector expectIntVector = new MyVector(new int[]{0,0,0,0,0});
+        assertTrue(actualIntVector.equal(expectIntVector), "test int sub int vector");
+
+        //{3, 2, 1, 0, -1} add {-1.1, 0.0, 1.0, 2.3, 3.0}
+        MyVector actualIntDoubleVector = INTV.sub(DOUBLEV);
+        MyVector expectIntDoubleVector = new MyVector(new double[]{4.1, 2.0,0.0,-2.3,-4.0});
+        assertTrue(actualIntDoubleVector.equal(expectIntDoubleVector), "test int sub double vector");
+        //test vector add empty vector
+        assertTrue(INTV.equal(INTV.sub(EMPTYVECTOR)),"test int vector sub empty vector");
+        //todo empty sub empty
     }
 
     @Test //test add double
-    public void testSubDouble() {
-        MyVector vector = new MyVector();
-        System.out.println("");
-        assertEquals("", vector);
+    public void testSubVector() {
+        //{-1.1, 0.0, 1.0, 2.3, 3.0}
+        MyVector actualDoubleVector = DOUBLEV.subV(1,3);
+        MyVector expectDoubleVector = new MyVector(new double[]{0.0,1.0,2.3});
+        assertTrue(DOUBLEV.subV(3,1).equal(expectDoubleVector), "test subV double vector from 3 to 1");
+        assertTrue(actualDoubleVector.equal(expectDoubleVector), "test subV double vector from 1 to 3");
+
+        //{3, 2, 1, 0, -1}
+        MyVector actualIntVector = INTV.subV(1,3);
+        MyVector expectIntVector = new MyVector(new int[]{2,1,0});
+        assertTrue(actualIntVector.equal(expectIntVector), "test subV int vector");
+        assertEquals(null,INTV.subV(-1,1), "test get sub from impossible index");
+        assertEquals(null,DOUBLEV.subV(3,5),"test subV out of bound");
+        MyVector expectIntVector1 = new MyVector(new int[]{2});
+        assertTrue(expectIntVector1.equal(INTV.subV(1,1)),"get subV from 1 to 1 which is 1");
     }
 
     @Test //test mult vector
     public void testMult() {
-        MyVector vectorD1 = new MyVector(ORIGDOUBLEARRAY);
-        MyVector vectorD2 = new MyVector(ORIGDOUBLEARRAY);
-        Double[] tempDouble = new Double[]{3.0, 2.3, 1.0, 0.0, -1.1};
-        assertEquals("", vectorD1);
+        //{-1.1, 0.0, 1.0, 2.3, 3.0}
+        MyVector actaulVectorD = new MyVector(ORIGDOUBLEARRAY);
+        MyVector expectVectorD = new MyVector( new double[]{1.21,0.0,1.0,5.29,9});
+        assertTrue(actaulVectorD.equal(expectVectorD));
+        //{3, 2, 1, 0, -1}
+        MyVector actaulVectorI = new MyVector(ORIGDOUBLEARRAY);
+        MyVector expectVectorI = new MyVector( new double[]{1.21,0.0,1.0,5.29,9});
+        assertTrue(actaulVectorI.equal(expectVectorI));
+
     }
 
     @Test //test mult double
