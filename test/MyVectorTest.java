@@ -1,4 +1,5 @@
 import org.junit.jupiter.api.Test;
+import org.omg.IOP.ENCODING_CDR_ENCAPS;
 
 
 import java.util.Arrays;
@@ -6,10 +7,12 @@ import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+import static java.lang.Math.sqrt;
 import static org.junit.jupiter.api.Assertions.*;
 
 class MyVectorTest {
     //constant vectors for testing purpose
+    //todo operation between different size vector should return what
     private final double[] ORIGDOUBLEARRAY = new double[]{-1.1, 0.0, 1.0, 2.3, 3.0};
     private final int[] ORIGINTARRAY = new int[]{3, 2, 1, 0, -1};
     private final MyVector DOUBLEV = new MyVector(ORIGDOUBLEARRAY);
@@ -103,13 +106,15 @@ class MyVectorTest {
         MyVector expectIntDoubleVecotr = new MyVector(new double[]{1.9, 2, 2, 2.3, 2});
         assertTrue(actualIntDoubleVector.equal(expectIntDoubleVecotr), "test int add double vector");
         //test vector add empty vector
-        assertTrue(INTV.equal(INTV.add(EMPTYVECTOR)),"test empty add empty");
+        assertTrue(INTV.equal(INTV.add(EMPTYVECTOR)), "test empty add empty");
     }
 
     @Test //test add double
     public void testAddDouble() {
         double two = 2.0;
+        int three = 3;
         double onePointTwo = 1.2;
+
         MyVector actualDoubleVector = DOUBLEV.add(two);
         //{-1.1, 0.0, 1.0, 2.3, 3.0} original add 2
         double[] expectD = new double[]{0.9, 2.0, 3.0, 4.3, 5.0};
@@ -120,6 +125,12 @@ class MyVectorTest {
         double[] expectI = new double[]{4.2, 3.2, 2.2, 1.2, 0.2};
         MyVector expectIntResult = new MyVector(expectI);
         assertTrue(actualIntVector.equal(expectIntResult), "test int vector add double");
+
+        MyVector actualIntVectorInt = INTV.add(three);
+        //{3, 2, 1, 0, -1} original add 3
+        double[] expectII = new double[]{6, 5, 4, 3, 2};
+        MyVector expectIntResultInt = new MyVector(expectII);
+        assertTrue(actualIntVectorInt.equal(expectIntResultInt), "test int vector add int");
         MyVector expectEmpty = EMPTYVECTOR.add(two);
         assertTrue(EMPTYVECTOR.equal(expectEmpty), "test empty vector add double");
         //todo add test for int add int
@@ -134,67 +145,108 @@ class MyVectorTest {
 
         //{3, 2, 1, 0, -1} add {3, 2, 1, 0, -1}
         MyVector actualIntVector = INTV.sub(INTV);
-        MyVector expectIntVector = new MyVector(new int[]{0,0,0,0,0});
+        MyVector expectIntVector = new MyVector(new int[]{0, 0, 0, 0, 0});
         assertTrue(actualIntVector.equal(expectIntVector), "test int sub int vector");
 
         //{3, 2, 1, 0, -1} add {-1.1, 0.0, 1.0, 2.3, 3.0}
         MyVector actualIntDoubleVector = INTV.sub(DOUBLEV);
-        MyVector expectIntDoubleVector = new MyVector(new double[]{4.1, 2.0,0.0,-2.3,-4.0});
+        MyVector expectIntDoubleVector = new MyVector(new double[]{4.1, 2.0, 0.0, -2.3, -4.0});
         assertTrue(actualIntDoubleVector.equal(expectIntDoubleVector), "test int sub double vector");
         //test vector add empty vector
-        assertTrue(INTV.equal(INTV.sub(EMPTYVECTOR)),"test int vector sub empty vector");
-        //todo empty sub empty
+        assertTrue(INTV.equal(INTV.sub(EMPTYVECTOR)), "test int vector sub empty vector");
+
+        assertTrue(EMPTYVECTOR.equal(EMPTYVECTOR.sub(EMPTYVECTOR)), "test empty sub empty vector");
+
     }
 
     @Test //test add double
     public void testSubVector() {
         //{-1.1, 0.0, 1.0, 2.3, 3.0}
-        MyVector actualDoubleVector = DOUBLEV.subV(1,3);
-        MyVector expectDoubleVector = new MyVector(new double[]{0.0,1.0,2.3});
-        assertTrue(DOUBLEV.subV(3,1).equal(expectDoubleVector), "test subV double vector from 3 to 1");
+        MyVector actualDoubleVector = DOUBLEV.subV(1, 3);
+        MyVector expectDoubleVector = new MyVector(new double[]{0.0, 1.0, 2.3});
+        assertTrue(DOUBLEV.subV(3, 1).equal(expectDoubleVector), "test subV double vector from 3 to 1");
         assertTrue(actualDoubleVector.equal(expectDoubleVector), "test subV double vector from 1 to 3");
 
         //{3, 2, 1, 0, -1}
-        MyVector actualIntVector = INTV.subV(1,3);
-        MyVector expectIntVector = new MyVector(new int[]{2,1,0});
+        MyVector actualIntVector = INTV.subV(1, 3);
+        MyVector expectIntVector = new MyVector(new int[]{2, 1, 0});
         assertTrue(actualIntVector.equal(expectIntVector), "test subV int vector");
-        assertEquals(null,INTV.subV(-1,1), "test get sub from impossible index");
-        assertEquals(null,DOUBLEV.subV(3,5),"test subV out of bound");
+        assertEquals(null, INTV.subV(-1, 1), "test get sub from impossible index");
+        assertEquals(null, DOUBLEV.subV(3, 5), "test subV out of bound");
         MyVector expectIntVector1 = new MyVector(new int[]{2});
-        assertTrue(expectIntVector1.equal(INTV.subV(1,1)),"get subV from 1 to 1 which is 1");
+        assertTrue(expectIntVector1.equal(INTV.subV(1, 1)), "get subV from 1 to 1 which is 1");
     }
 
     @Test //test mult vector
     public void testMult() {
         //{-1.1, 0.0, 1.0, 2.3, 3.0}
-        MyVector actaulVectorD = new MyVector(ORIGDOUBLEARRAY);
-        MyVector expectVectorD = new MyVector( new double[]{1.21,0.0,1.0,5.29,9});
-        assertTrue(actaulVectorD.equal(expectVectorD));
-        //{3, 2, 1, 0, -1}
-        MyVector actaulVectorI = new MyVector(ORIGDOUBLEARRAY);
-        MyVector expectVectorI = new MyVector( new double[]{1.21,0.0,1.0,5.29,9});
-        assertTrue(actaulVectorI.equal(expectVectorI));
+        MyVector actualVectorD = DOUBLEV.mult(DOUBLEV);
+        MyVector expectVectorD = new MyVector(new double[]{1.21, 0.0, 1.0, 5.29, 9});
+        assertTrue(actualVectorD.equal(expectVectorD), "test double v mult double v");
 
+        MyVector actualVectorDMultI = DOUBLEV.mult(INTV);
+        MyVector expectVectorDMultI = new MyVector(new double[]{-3.3, 0, 1, 0, -3.0});
+        assertTrue(actualVectorDMultI.equal(expectVectorDMultI), "test double v mult int v");
+
+        MyVector actualVectorD1 = DOUBLEV.mult(EMPTYVECTOR);
+        assertTrue(actualVectorD1.equal(EMPTYVECTOR), "test v mult empty v");
+        //{3, 2, 1, 0, -1}
+        MyVector actualVectorI = INTV.mult(INTV);
+        MyVector expectVectorI = new MyVector(new double[]{1.21, 0.0, 1.0, 5.29, 9});
+        assertTrue(actualVectorI.equal(expectVectorI), "test int v mult int v");
     }
 
     @Test //test mult double
     public void testMultDouble() {
-        MyVector vector = new MyVector(ORIGDOUBLEARRAY);
-        System.out.println("");
-        assertEquals("", vector.mult(2));
+        //{-1.1, 0.0, 1.0, 2.3, 3.0}
+        MyVector actualVectorD = DOUBLEV.mult(2.1);
+        MyVector expectVectorD = new MyVector(new double[]{-2.31, 0.0, 2.1, 4.83, 6.3});
+        assertTrue(actualVectorD.equal(expectVectorD), "test double v mult double");
+        //{3, 2, 1, 0, -1}
+        MyVector actualVectorI = INTV.mult(1);
+        MyVector expectVectorI = new MyVector(new double[]{3, 2, 1, 0, -1});
+        assertTrue(actualVectorI.equal(expectVectorI), "test int v mult int");
+        MyVector actualVectorI1 = INTV.mult(1.1);
+        MyVector expectVectorI1 = new MyVector(new double[]{3.3, 2.2, 1, 1, 0.0, -1.1});
+        assertTrue(actualVectorI1.equal(expectVectorI1), "test int v mult double");
     }
 
     @Test //test normalize
     public void testNormalize() {
-        MyVector vector = new MyVector();
-        System.out.println("");
-        assertEquals("", vector);
+        //todo double vector with sqrt test is needed or not
+        double[] tempDoubleA = new double[]{3, 4};
+        MyVector actualDoubleNorm = (new MyVector(tempDoubleA)).normalize();
+        MyVector expectDoubleNorm = new MyVector(new double[]{3 / 5, 4 / 5});
+        assertTrue(actualDoubleNorm.equal(expectDoubleNorm), "test int v mult int");
+
+        int[] tempIntA = new int[]{3, 4};
+        MyVector actualIntNorm = (new MyVector(tempIntA)).normalize();
+        MyVector expectIntNorm = new MyVector(new double[]{3 / 5, 4 / 5});
+        assertTrue(actualIntNorm.equal(expectIntNorm), "test int v mult int");
+
+        MyVector emptyNorm = EMPTYVECTOR.normalize();
+        assertEquals(null, emptyNorm, "test on empty vector normalization");
     }
 
     @Test //test euclidean  distance
     public void testEuclideanDistance() {
-        MyVector vector = new MyVector();
-        System.out.println("");
-        assertEquals("", vector);
+        MyVector doubleV1 = new MyVector(new double[]{2, -2});
+        MyVector doubleV2 = new MyVector(new double[]{-2, 2});
+        double actualDoubleVDistance = doubleV1.euclidianDistance(doubleV2);
+        assertEquals(5.0, actualDoubleVDistance, "test distance between double v's");
+        assertEquals(0, (double) doubleV1.euclidianDistance(DOUBLEV), "test distance between different size vectors");
+
+        MyVector intV1 = new MyVector(new int[]{2, -2});
+        MyVector intV2 = new MyVector(new int[]{-2, 2});
+        double actualIntVDistance = intV1.euclidianDistance(intV2);
+        assertEquals(5.0, actualIntVDistance, "test distance between int v's");
+
+        double actualIntVDoubleVDistance = doubleV1.euclidianDistance(intV1);
+        assertEquals(5.0, actualIntVDoubleVDistance, "test distance between double v and int v");
+
+        double actualDistanceToEmptyV = doubleV1.euclidianDistance(EMPTYVECTOR);
+        assertEquals(2 * sqrt(2), actualDistanceToEmptyV, "test distance to original point");
+
+
     }
 }
