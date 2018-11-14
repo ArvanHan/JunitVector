@@ -21,17 +21,17 @@ class MyVectorTest {
     @Test //test get value
     public void getValue() {
         assertEquals(1.0, DOUBLEV.getValue(3).doubleValue, "test getValue from double vector");
-        assertEquals(3.0, DOUBLEV.getValue(4).doubleValue);
+        assertEquals(2.3, DOUBLEV.getValue(4).doubleValue);
         assertEquals(null, DOUBLEV.getValue(6).doubleValue, "test getValue from an index out of bound");
         assertEquals(null, EMPTYVECTOR.getValue(3).doubleValue, "test getValue from empty vector");
-        assertEquals(5, INTV.getValue(3).intValue, "test getValue from int vector");
-        assertEquals(7, INTV.getValue(4).intValue);
+        assertEquals(1, INTV.getValue(3).intValue, "test getValue from int vector");
+        assertEquals(0, INTV.getValue(4).intValue);
     }
 
     @Test //test getlength
     public void testGetLength() {
         assertEquals("5", DOUBLEV.getLength(), "length should be 5");
-        assertEquals("5", DOUBLEV.getLength(), "length should be 5");
+        assertEquals("5", INTV.getLength(), "length should be 5");
         assertEquals(0, EMPTYVECTOR.getLength(), "empty vector return 0 length");
     }
 
@@ -46,7 +46,10 @@ class MyVectorTest {
         assertEquals(false, vD1.equal(diffVD3));
         MyVector vI1 = new MyVector(ORIGINTARRAY);
         MyVector vI2 = new MyVector(ORIGINTARRAY);
+        int[] intArray = new int[]{1,2,3,4};
+        MyVector vI3 = new MyVector(intArray);
         assertEquals(true, vI1.equal(vI2));
+        assertEquals(false, vI1.equal(vI3));
     }
 
     @Test //test append double[]
