@@ -1,11 +1,9 @@
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.omg.IOP.ENCODING_CDR_ENCAPS;
-
 
 import java.util.Arrays;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 import static java.lang.Math.sqrt;
 import static org.junit.jupiter.api.Assertions.*;
@@ -15,20 +13,31 @@ class MyVectorTest {
     //todo operation between different size vector should return what
     private final double[] ORIGDOUBLEARRAY = new double[]{-1.1, 0.0, 1.0, 2.3, 3.0};
     private final int[] ORIGINTARRAY = new int[]{3, 2, 1, 0, -1};
-    private final MyVector DOUBLEV = new MyVector(ORIGDOUBLEARRAY);
+    private final MyVector DOUBLEV = new MyVector();
     private final MyVector INTV = new MyVector(ORIGINTARRAY);
     private final MyVector EMPTYVECTOR = new MyVector();
 //inorder to let the test runnable need to implement the get value  and get size function inorder to test field by field
 //then implement the equal function and then assert equals function will be able to run to compare two myVector objects
 
+    @BeforeAll
+    public void setUp() {
+        MyVector expectIntVector = new MyVector(new int[]{5, 4, 2, 0, -2});
+        MyVector expectIntDoubleVector = new MyVector(new double[]{1.9, 2, 2, 2.3, 2});
+    }
+
     @Test //test get value
     public void getValue() {
-        assertEquals(1.0, DOUBLEV.getValue(3).doubleValue, "test getValue from double vector");
-        assertEquals(2.3, DOUBLEV.getValue(4).doubleValue);
-        assertEquals(null, DOUBLEV.getValue(6).doubleValue, "test getValue from an index out of bound");
-        assertEquals(null, EMPTYVECTOR.getValue(3).doubleValue, "test getValue from empty vector");
-        assertEquals(1, INTV.getValue(3).intValue, "test getValue from int vector");
-        assertEquals(0, INTV.getValue(4).intValue);
+        assertEquals(1.0, DOUBLEV.getValue(3), "test getValue from double vector");
+        assertEquals(2.3, DOUBLEV.getValue(4));
+        assertEquals(null, DOUBLEV.getValue(6), "test getValue from an index out of bound");
+        assertEquals(null, EMPTYVECTOR.getValue(3), "test getValue from empty vector");
+        assertEquals(1, INTV.getValue(3), "test getValue from int vector");
+        assertEquals(0, INTV.getValue(4));
+        assertThrows(ArrayIndexOutOfBoundsException.class,
+                () -> {
+                    DOUBLEV.getValue(6);
+                }
+        );
     }
 
     @Test //test getlength
@@ -38,7 +47,7 @@ class MyVectorTest {
         assertEquals(0, EMPTYVECTOR.getLength(), "empty vector return 0 length");
     }
 
-    @Test //test equal
+    @Test//test equal
     public void testEqual() {
         //todo this is not complete need to compare each elements and the length
         MyVector vD1 = new MyVector(ORIGDOUBLEARRAY);
@@ -103,8 +112,8 @@ class MyVectorTest {
 
         //{3, 2, 1, 0, -1} add {-1.1, 0.0, 1.0, 2.3, 3.0}
         MyVector actualIntDoubleVector = INTV.add(DOUBLEV);
-        MyVector expectIntDoubleVecotr = new MyVector(new double[]{1.9, 2, 2, 2.3, 2});
-        assertTrue(actualIntDoubleVector.equal(expectIntDoubleVecotr), "test int add double vector");
+        MyVector expectIntDoubleVector = new MyVector(new double[]{1.9, 2, 2, 2.3, 2});
+        assertTrue(actualIntDoubleVector.equal(expectIntDoubleVector), "test int add double vector");
         //test vector add empty vector
         assertTrue(INTV.equal(INTV.add(EMPTYVECTOR)), "test empty add empty");
     }

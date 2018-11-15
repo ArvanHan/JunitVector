@@ -1,17 +1,6 @@
-class returnType {
-    public final int intValue;
-    public final double doubleValue;
-
-    public returnType(int iValue, double dValue) {
-        this.intValue = iValue;
-        this.doubleValue = dValue;
-    }
-}
-
 public final class MyVector {
 
     protected final double[] doubleData;
-    protected final int[] intData;
     //protected final Object[] data; //Vector itself
     protected final int size; // maximum capacity of the vector
 
@@ -23,21 +12,19 @@ public final class MyVector {
         this.size = size;
         this.doubleData = new double[size]; //creates a vector of size – size
         for (int i = 0; i < size; i++) doubleData[i] = D;// with elements initialized to D
-        this.intData = new int[0];
     }
 
     public MyVector(double[] D) {//creates a vector initialized to array D
         this.size = D.length;
-        this.intData = new int[0];
         this.doubleData = new double[size];
         for (int i = 0; i < size; i++) doubleData[i] = D[i];
     }
 
     public MyVector(int[] I) {//creates a vector initialized to array I
         this.size = I.length;
-        doubleData = new double[0];
-        this.intData = new int[size];
-        for (int i = 0; i < size; i++) intData[i] = I[i];
+        double[] tempDouble = new double[size];
+        for (int i = 0; i < size; i++) tempDouble[i] = I[i];
+        this.doubleData = tempDouble;
     }
 
     public MyVector append(double[] doubleArray) {
@@ -68,12 +55,12 @@ public final class MyVector {
         return 0;
     }
 
-    public returnType getValue(int i) { //returns the value this[i]
-        returnType rt = new returnType(-999, -999);
-        return rt;
+    public double getValue(int i) { //returns the value this[i]
+        return 0;
     }
 
     public MyVector add(MyVector V) {//add this to V, returning a Vector the same size as this
+
         return null;
     }
 
