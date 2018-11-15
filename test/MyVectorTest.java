@@ -13,18 +13,19 @@ class MyVectorTest {
     //todo operation between different size vector should return what
     private final double[] ORIGDOUBLEARRAY = new double[]{-1.1, 0.0, 1.0, 2.3, 3.0};
     private final int[] ORIGINTARRAY = new int[]{3, 2, 1, 0, -1};
-    private final MyVector DOUBLEV = new MyVector();
+    private final MyVector DOUBLEV = new MyVector(ORIGDOUBLEARRAY);
     private final MyVector INTV = new MyVector(ORIGINTARRAY);
     private final MyVector EMPTYVECTOR = new MyVector();
 //inorder to let the test runnable need to implement the get value  and get size function inorder to test field by field
 //then implement the equal function and then assert equals function will be able to run to compare two myVector objects
 
+    /*
     @BeforeAll
     public void setUp() {
         MyVector expectIntVector = new MyVector(new int[]{5, 4, 2, 0, -2});
         MyVector expectIntDoubleVector = new MyVector(new double[]{1.9, 2, 2, 2.3, 2});
     }
-
+*/
     @Test //test get value
     public void getValue() {
         assertEquals(1.0, DOUBLEV.getValue(3), "test getValue from double vector");
@@ -112,7 +113,7 @@ class MyVectorTest {
         );
         //{3, 2, 1, 0, -1} add {3, 2, 1, 0, -1}
         MyVector actualIntVector = INTV.add(INTV);
-        MyVector expectIntVector = new MyVector(new int[]{5, 4, 2, 0, -2});
+        MyVector expectIntVector = new MyVector(new int[]{6, 4, 2, 0, -2});
         assertTrue(actualIntVector.equal(expectIntVector), "test int add int vector");
 
         //{3, 2, 1, 0, -1} add {-1.1, 0.0, 1.0, 2.3, 3.0}

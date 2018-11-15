@@ -83,12 +83,35 @@ public final class MyVector {
     }
 
     public MyVector add(MyVector V) {//add this to V, returning a Vector the same size as this
+       /* double[] newdoubleData;
+        if(doubleData.length >= V.getLength()) {
+            newdoubleData = Arrays.copyOf(doubleData,doubleData.length);
+            for (int i = 0; i < V.doubleData.length; i++)
+                newdoubleData[i] = newdoubleData[i] + V.doubleData[i];
+        }
+           else
+        {
+            newdoubleData = Arrays.copyOf(V.doubleData,V.doubleData.length);
+            for (int i = 0; i < doubleData.length; i++)
+                newdoubleData[i] = newdoubleData[i] + doubleData[i];
+        }*/
+        double[] newdoubleData;
+       if(doubleData.length == V.getLength()) {
+           newdoubleData = Arrays.copyOf(doubleData, doubleData.length);
+           for (int i = 0; i < doubleData.length; i++)
+                newdoubleData[i] = newdoubleData[i] + V.doubleData[i];
+           return new MyVector(newdoubleData);
+       }
+       else
+           throw new ArrayIndexOutOfBoundsException();
+       // todo try catch method, not class.
 
-        return null;
     }
 
     public MyVector add(double aDouble) { //add aDouble to every element of this
-        return null;
+        for (int i = 0; i < doubleData.length; i++)
+            doubleData[i] += aDouble;
+        return new MyVector(doubleData);
     }
 
     public MyVector sub(MyVector V) {//sub this – V
