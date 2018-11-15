@@ -18,13 +18,13 @@ class MyVectorTest {
     private final MyVector EMPTYVECTOR = new MyVector();
 //inorder to let the test runnable need to implement the get value  and get size function inorder to test field by field
 //then implement the equal function and then assert equals function will be able to run to compare two myVector objects
-
+/*
     @BeforeAll
     public void setUp() {
         MyVector expectIntVector = new MyVector(new int[]{5, 4, 2, 0, -2});
         MyVector expectIntDoubleVector = new MyVector(new double[]{1.9, 2, 2, 2.3, 2});
     }
-
+*/
     @Test //test get value
     public void getValue() {
         assertEquals(1.0, DOUBLEV.getValue(3), "test getValue from double vector");

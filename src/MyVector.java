@@ -1,6 +1,12 @@
+
+
+import java.util.Arrays;
+import java.util.stream.DoubleStream;
+import java.util.stream.IntStream;
+
 public final class MyVector {
 
-    protected final double[] doubleData;
+    protected double[] doubleData;
     //protected final Object[] data; //Vector itself
     protected final int size; // maximum capacity of the vector
 
@@ -28,15 +34,29 @@ public final class MyVector {
     }
 
     public MyVector append(double[] doubleArray) {
-        return null;
+        double[] newDoubleArray = DoubleStream.concat(Arrays.stream(doubleData), Arrays.stream(doubleArray)).toArray();
+        doubleData = newDoubleArray;
+        return this;
     }
 
     public MyVector append(int[] intArray) {
-        return null;
+
+        double[] doubleArray2 = new double[intArray.length];
+        for (int i=0; i<intArray.length; ++i) {
+            doubleArray2[i] =  intArray[i];
+        }
+        double [] newDoubleArray2 = DoubleStream.concat(Arrays.stream(doubleData), Arrays.stream(doubleArray2)).toArray();
+        doubleData = newDoubleArray2;
+        return this;
+
     }
 
     public MyVector append(MyVector V) {
-        return null;
+
+
+
+        //doubleData = cloneDoubleArray;
+        return this;
     }
 
     public MyVector append(double aDouble) {
@@ -44,6 +64,8 @@ public final class MyVector {
     }
 
     public MyVector clone() {// returns a clone of this
+
+
         return null;
     }
 
@@ -52,10 +74,12 @@ public final class MyVector {
     }
 
     public int getLength() { //returns number of elements in this
+        //todo 2
         return 0;
     }
 
     public double getValue(int i) { //returns the value this[i]
+
         return 0;
     }
 
