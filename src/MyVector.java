@@ -1,3 +1,6 @@
+import java.util.Arrays;
+import java.util.stream.DoubleStream;
+
 import static java.lang.Math.abs;
 import static java.lang.Math.sqrt;
 
@@ -31,11 +34,17 @@ public final class MyVector {
     }
 
     public MyVector append(double[] doubleArray) {
-        return null;
+        double[] newDoubleArray = DoubleStream.concat(Arrays.stream(doubleData), Arrays.stream(doubleArray)).toArray();
+        return new MyVector(newDoubleArray);
     }
 
     public MyVector append(int[] intArray) {
-        return null;
+        double[] intToDoubleArray = new double[intArray.length];
+        for (int i = 0; i < intArray.length; ++i) {
+            intToDoubleArray[i] = intArray[i];
+        }
+        double[] newDoubleArray = DoubleStream.concat(Arrays.stream(doubleData), Arrays.stream(intToDoubleArray)).toArray();
+        return new MyVector(newDoubleArray);
     }
 
     public MyVector append(MyVector V) {
@@ -47,19 +56,25 @@ public final class MyVector {
     }
 
     public MyVector clone() {// returns a clone of this
-        return null;
+        return new MyVector(doubleData);
     }
 
     public boolean equal(MyVector V) {//this and V are the same
-        return true;
+        if (Arrays.equals(doubleData, V.doubleData))
+            return true;
+        else
+            return false;
     }
 
     public int getLength() { //returns number of elements in this
-        return 0;
+        return doubleData.length;
     }
 
     public double getValue(int i) { //returns the value this[i]
-        return 0;
+        if (doubleData.length != 0 && i < 0 && i > (doubleData.length - 1))
+            return doubleData[i];
+        else
+            throw new ArrayIndexOutOfBoundsException("the index is not valid");
     }
 
     public MyVector add(MyVector V) {//add this to V, returning a Vector the same size as this
