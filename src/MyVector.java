@@ -48,11 +48,16 @@ public final class MyVector {
     }
 
     public MyVector append(MyVector V) {
-        return null;
+        double[] newDoubleArray = DoubleStream.concat(Arrays.stream(doubleData), Arrays.stream(V.doubleData)).toArray();
+        return new MyVector(newDoubleArray);
     }
 
     public MyVector append(double aDouble) {
-        return null;
+
+        double[] newDoubleArray = new double[doubleData.length+1];
+        newDoubleArray=Arrays.copyOf(doubleData,doubleData.length+1);
+        newDoubleArray[doubleData.length-1] = aDouble;
+        return new MyVector(newDoubleArray);
     }
 
     public MyVector clone() {// returns a clone of this
