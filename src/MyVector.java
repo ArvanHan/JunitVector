@@ -1,6 +1,9 @@
+import static java.lang.Math.abs;
+import static java.lang.Math.sqrt;
+
 public final class MyVector {
 
-    protected final double[] doubleData;
+    protected double[] doubleData;
     //protected final Object[] data; //Vector itself
     protected final int size; // maximum capacity of the vector
 
@@ -73,22 +76,72 @@ public final class MyVector {
     }
 
     public MyVector subV(int l, int r) {//will return a sub vector between the indices l and r inclusive
-        return null;
+        if (l > r || l > doubleData.length || l < 0 || r > doubleData.length || r < 0) {//if l > r or l or r not reasonable
+            throw new ArrayIndexOutOfBoundsException("vector length not equal");
+        } else if (l != r) {
+            double[] newDouble = new double[abs(l - r) + 1];
+            int j = 0;
+            if (l < r) {
+                for (int i = l; i < r; i++) {
+                    newDouble[j] = doubleData[i];
+                    j++;
+                }
+            } else newDouble[0] = doubleData[l];// just return element at l
+
+            MyVector newVector = new MyVector(newDouble);
+            return newVector;
+        } else
+            return null;
     }
 
     public MyVector mult(MyVector V) { //Multiple every element of this by corresponding element in V
-        return null;
+        if (doubleData.length == 0 && V.doubleData.length == 0)//empty vectors mult
+            return this;
+        if (doubleData.length != 0 && doubleData.length != V.doubleData.length) {
+            for (int i = 0; i < doubleData.length; i++)
+                doubleData[i] = doubleData[i] * V.doubleData[i];
+            return this;
+        } else //does not matter it is empty vector time another normal vector
+            throw new ArrayIndexOutOfBoundsException("vector length not equal");
     }
 
-    public MyVector mult(double aDouble) {//Multiply every element of this by aDouble
-        return null;
+    public MyVector mult(double aDouble) {//Multiply every element of this by a Double
+        double[] newDouble = new double[doubleData.length];
+        if (doubleData.length != 0) {
+            for (int i = 0; i < doubleData.length; i++)
+                newDouble[i] = doubleData[i] * aDouble;
+            return new MyVector(newDouble);
+        } else { //current vector is empty vector
+            return this.clone();
+        }
     }
 
     public MyVector normalize() {//returns this as a normalized vector
-        return null;
+        if (doubleData.length == 0) { //current vector is empty
+            return this.clone();
+        } else {
+            double sum = 0;
+            int size = doubleData.length;
+            for (int i = 0; i < size; i++) {
+                double temp = doubleData[i];
+                double tempSum = temp * temp;
+                sum += tempSum;
+            }
+            double[] newDouble = new double[size];
+            for (int i = 0; i < size; i++) newDouble[i] = (doubleData[i]) / (sqrt(sum));
+            return new MyVector(newDouble);
+        }
     }
 
-    public Double euclidianDistance(MyVector V) {//returns the Euclidian distance between this and V.
-        return null;
+    public Double euclideanDistance(MyVector V) {//returns the Euclidian distance between this and V.
+        //todo what happen if v is empty or double data is empty
+        double sum = 0;
+        for (int i = 0; i < doubleData.length; i++) {
+            double x = doubleData[i];
+            double y = V.doubleData[i];
+            sum += x * x - y * y;
+        }
+        double distance = sqrt(sum);
+        return distance;
     }
 }

@@ -101,10 +101,15 @@ class MyVectorTest {
     @Test //test add vector
     public void testAdd() {
         //{-1.1, 0.0, 1.0, 2.3, 3.0} add {-1.1, 0.0, 1.0, 2.3, 3.0}
-        MyVector actaulDoubleVector = DOUBLEV.add(DOUBLEV);
+        MyVector actualDoubleVector = DOUBLEV.add(DOUBLEV);
         MyVector expectDoubleVector = new MyVector(new double[]{-2.2, 0.0, 2.0, 4.6, 6.0});
-        assertTrue(actaulDoubleVector.equal(expectDoubleVector), "test double add double vector");
-
+        assertTrue(actualDoubleVector.equal(expectDoubleVector), "test double add double vector");
+        MyVector differentSizeVector = new MyVector(new double[]{-2.2, 0.0, 2.0, 4.6});
+        assertThrows(ArrayIndexOutOfBoundsException.class,
+                () -> {
+                    DOUBLEV.add(differentSizeVector);
+                }
+        );
         //{3, 2, 1, 0, -1} add {3, 2, 1, 0, -1}
         MyVector actualIntVector = INTV.add(INTV);
         MyVector expectIntVector = new MyVector(new int[]{5, 4, 2, 0, -2});
@@ -148,10 +153,15 @@ class MyVectorTest {
     @Test //test sub vector
     public void testSub() {
         //{-1.1, 0.0, 1.0, 2.3, 3.0} Sub {-1.1, 0.0, 1.0, 2.3, 3.0}
-        MyVector actaulDoubleVector = DOUBLEV.sub(DOUBLEV);
+        MyVector actualDoubleVector = DOUBLEV.sub(DOUBLEV);
         MyVector expectDoubleVector = new MyVector(new double[]{0.0, 0.0, 0.0, 0.0, 0.0});
-        assertTrue(actaulDoubleVector.equal(expectDoubleVector), "test double sub double vector");
-
+        assertTrue(actualDoubleVector.equal(expectDoubleVector), "test double sub double vector");
+        MyVector differentSizeVector = new MyVector(new double[]{-2.2, 0.0, 2.0, 4.6});
+        assertThrows(ArrayIndexOutOfBoundsException.class,
+                () -> {
+                    DOUBLEV.sub(differentSizeVector);
+                }
+        );
         //{3, 2, 1, 0, -1} add {3, 2, 1, 0, -1}
         MyVector actualIntVector = INTV.sub(INTV);
         MyVector expectIntVector = new MyVector(new int[]{0, 0, 0, 0, 0});
@@ -168,20 +178,35 @@ class MyVectorTest {
 
     }
 
-    @Test //test add double
+    @Test //test subset of vector
     public void testSubVector() {
         //{-1.1, 0.0, 1.0, 2.3, 3.0}
         MyVector actualDoubleVector = DOUBLEV.subV(1, 3);
         MyVector expectDoubleVector = new MyVector(new double[]{0.0, 1.0, 2.3});
-        assertTrue(DOUBLEV.subV(3, 1).equal(expectDoubleVector), "test subV double vector from 3 to 1");
+        assertThrows(ArrayIndexOutOfBoundsException.class,
+                () -> {
+                    DOUBLEV.subV(3, 1);
+                }
+        );
         assertTrue(actualDoubleVector.equal(expectDoubleVector), "test subV double vector from 1 to 3");
+
 
         //{3, 2, 1, 0, -1}
         MyVector actualIntVector = INTV.subV(1, 3);
         MyVector expectIntVector = new MyVector(new int[]{2, 1, 0});
         assertTrue(actualIntVector.equal(expectIntVector), "test subV int vector");
-        assertEquals(null, INTV.subV(-1, 1), "test get sub from impossible index");
-        assertEquals(null, DOUBLEV.subV(3, 5), "test subV out of bound");
+        //exception get sub from impossible index
+        assertThrows(ArrayIndexOutOfBoundsException.class,
+                () -> {
+                    MyVector negSubDoubleVector = INTV.subV(-1, 1);
+                }
+        );
+        //exception subV out of bound index
+        assertThrows(ArrayIndexOutOfBoundsException.class,
+                () -> {
+                   DOUBLEV.subV(3, 5);
+                }
+        );
         MyVector expectIntVector1 = new MyVector(new int[]{2});
         assertTrue(expectIntVector1.equal(INTV.subV(1, 1)), "get subV from 1 to 1 which is 1");
     }
@@ -193,6 +218,12 @@ class MyVectorTest {
         MyVector expectVectorD = new MyVector(new double[]{1.21, 0.0, 1.0, 5.29, 9});
         assertTrue(actualVectorD.equal(expectVectorD), "test double v mult double v");
 
+        MyVector differentSizeVector = new MyVector(new double[]{-2.2, 0.0, 2.0, 4.6});
+        assertThrows(ArrayIndexOutOfBoundsException.class,
+                () -> {
+                    DOUBLEV.mult(differentSizeVector);
+                }
+        );
         MyVector actualVectorDMultI = DOUBLEV.mult(INTV);
         MyVector expectVectorDMultI = new MyVector(new double[]{-3.3, 0, 1, 0, -3.0});
         assertTrue(actualVectorDMultI.equal(expectVectorDMultI), "test double v mult int v");
@@ -241,19 +272,25 @@ class MyVectorTest {
     public void testEuclideanDistance() {
         MyVector doubleV1 = new MyVector(new double[]{2, -2});
         MyVector doubleV2 = new MyVector(new double[]{-2, 2});
-        double actualDoubleVDistance = doubleV1.euclidianDistance(doubleV2);
+        double actualDoubleVDistance = doubleV1.euclideanDistance(doubleV2);
         assertEquals(5.0, actualDoubleVDistance, "test distance between double v's");
-        assertEquals(0, (double) doubleV1.euclidianDistance(DOUBLEV), "test distance between different size vectors");
+        assertEquals(0, (double) doubleV1.euclideanDistance(DOUBLEV), "test distance between different size vectors");
 
+        MyVector differentSizeVector = new MyVector(new double[]{-2.2, 0.0, 2.0, 4.6});
+        assertThrows(ArrayIndexOutOfBoundsException.class,
+                () -> {
+                    DOUBLEV.euclideanDistance(differentSizeVector);
+                }
+        );
         MyVector intV1 = new MyVector(new int[]{2, -2});
         MyVector intV2 = new MyVector(new int[]{-2, 2});
-        double actualIntVDistance = intV1.euclidianDistance(intV2);
+        double actualIntVDistance = intV1.euclideanDistance(intV2);
         assertEquals(5.0, actualIntVDistance, "test distance between int v's");
 
-        double actualIntVDoubleVDistance = doubleV1.euclidianDistance(intV1);
+        double actualIntVDoubleVDistance = doubleV1.euclideanDistance(intV1);
         assertEquals(5.0, actualIntVDoubleVDistance, "test distance between double v and int v");
 
-        double actualDistanceToEmptyV = doubleV1.euclidianDistance(EMPTYVECTOR);
+        double actualDistanceToEmptyV = doubleV1.euclideanDistance(EMPTYVECTOR);
         assertEquals(2 * sqrt(2), actualDistanceToEmptyV, "test distance to original point");
 
 
