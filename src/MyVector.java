@@ -1,10 +1,6 @@
-import org.jcp.xml.dsig.internal.dom.DOMUtils;
-
-import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.stream.DoubleStream;
 
-import static java.lang.Math.abs;
 import static java.lang.Math.sqrt;
 
 public final class MyVector {
